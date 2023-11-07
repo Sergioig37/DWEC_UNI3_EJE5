@@ -1,36 +1,41 @@
 window.addEventListener("load", cargarPagina);
 const formulario = document.getElementById("formulario").elements;
-const passwrd = document.getElementById("password").value;
+ 
 
-function salCampoTexto(evento){
+function MayusCampoTexto(evento){
     var elem = evento.target;
     elem.value = elem.value.toUpperCase();
-    
-    
 }
-
+function salPasswrd(evento){
+    var elem = evento.target.value;
+    if(elem.length<8){
+        alert("Contraseña muy corta");
+    }
+}
 function salPasswrd2(evento){
     var elem = evento.target;
-    var valido = false;
-    if(passwrd==elem.value&&elem.maxLength<=8){
-       valido = true;
-}
-return valido;
+    var passwrd = document.getElementById("password").value;
+    if(passwrd!==elem.value){
+       alert("Contraseñas diferentes");
+    }
 }
 
 function validarFormulario() {
-    console.log(formulario);
-    console.log('Contraseñas coinciden y tienen al menos 8 caracteres.');
-    console.log('Datos del formulario:');
-    console.log('Nombre: ' + document.getElementById("nombre").value);
-    console.log('Apellido: ' + document.getElementById("apellidos").value);
-    console.log('Fecha de nacimiento: ' + document.getElementById("fecha_nacimiento").value);
-    console.log('DNI: ' + document.getElementById("dni").value);
-    console.log('Email: ' + document.getElementById("email").value);
-    console.log('Password: ' + document.getElementById("password").value);
-    console.log('Género: ' + document.getElementById("genero").checked);
-    console.log('Favorito: ' + document.getElementById("favorito").options[document.getElementById("favorito").selectedIndex]);
-    console.log('Comentario: ' + document.getElementById("comentario").value);
+
+
+
+    Array.from(formulario).forEach(element => {
+        if(element.type=="radio"){
+            console.log(element.value +" : " + element.checked);
+        }
+        else if(element.type=="checkbox"){
+            console.log(element.name +" : " + element.checked);
+        }
+        else{
+           console.log(element.name +" : " + element.value); 
+        }
+        
+    });
 
 }
 
@@ -38,10 +43,11 @@ function cargarPagina(){
     
     Array.from(formulario).forEach(element => {
         if(element.type=="text"){
-            element.addEventListener("blur", salCampoTexto, false);
+            element.addEventListener("blur", MayusCampoTexto, false);
         }
     });
     document.getElementById("password2").addEventListener("blur", salPasswrd2, false);
+    document.getElementById("password").addEventListener("blur", salPasswrd, false);
     document.getElementById("enviar").addEventListener("click", validarFormulario,false);
 
 }
